@@ -107,8 +107,12 @@ class CategoryTableViewController: UITableViewController {
           self.tableView.reloadData()
       }
     
-    func loadItems(){
-        let request : NSFetchRequest <GameCategory> = GameCategory.fetchRequest()
+    func loadItems(with request : NSFetchRequest<GameCategory> = GameCategory.fetchRequest() ){
+        
+        //with is an EXTERNAL PARAMETER
+        //request is an INTERNAL PARAMETER
+        // = sign after paramtere indicates the default request in case no parameter is given
+        // let request : NSFetchRequest <GameCategory> = GameCategory.fetchRequest()
         do{
             
             catArray = try context.fetch(request)
@@ -151,4 +155,22 @@ extension CategoryTableViewController :  SwipeTableViewCellDelegate{
         return options
     }
     */
+}
+
+
+extension CategoryTableViewController : UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+            let request : NSFetchRequest<GameCategory> = GameCategory.fetchRequest()
+        //query
+            let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+            
+        
+        //sorting data ascending using sort descriptor
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+            request.predicate = predicate
+            
+            loadItems(with: request)
+            
+        }
 }

@@ -1,0 +1,6 @@
+framework module Pods_Game_Catalog {
+  umbrella header "Pods-Game Catalog-umbrella.h"
+
+  export *
+  module * { export * }
+}
